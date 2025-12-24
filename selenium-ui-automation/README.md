@@ -44,6 +44,17 @@ This project demonstrates:
   - wait_for_visible(locator) – fails with clear assertion if element is not visible
   - wait_for_clickable(locator) – fails with clear assertion if element is not clickable
 
+### Failure Debugging (Allure Attachments)
+- Automatic screenshot capture on **test failure**
+- Screenshot is attached directly to the relevant **Allure test case**
+- Works in **local runs**, **Docker**, and **CI** (GitHub Actions)
+
+### Parallel Execution (pytest-xdist)
+- Parallel test execution enabled via **pytest-xdist**
+- Helps reduce total suite runtime while keeping stability
+- Example run:
+  - `pytest -n 4 --alluredir=allure-results`
+
 ### Pytest Framework Quality
 - Reusable fixtures:
   - home – opens BASE_URL, validates Home page, returns HomePage
