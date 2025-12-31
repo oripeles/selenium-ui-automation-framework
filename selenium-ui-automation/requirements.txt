@@ -3,6 +3,6 @@ pytest==8.3.3
 webdriver-manager==4.0.2
 allure-pytest==2.13.5
 pytest-xdist==3.8.0
-
+pytest-rerunfailures==13.0
 
 

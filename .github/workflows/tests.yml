@@ -74,6 +74,7 @@ jobs:
             -e USER_PASSWORD="${{ secrets.USER_PASSWORD }}" \
             -v "${{ github.workspace }}/selenium-ui-automation/allure-results:/app/allure-results" \
             selenium-tests
+            pytest -n 4 --reruns 1 --reruns-delay 1 --alluredir=/app/allure-results
 
       - name: Generate Allure HTML report
         run: |
