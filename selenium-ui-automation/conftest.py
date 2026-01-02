@@ -3,22 +3,22 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-
 from pages.home_page import HomePage
 from utilities.json_loader import load_json
+from utilities.config import BASE_URL, HEADLESS, IMPLICIT_WAIT
 
-BASE_URL = "https://www.automationexercise.com/"
 @pytest.fixture(scope="function")
 def driver():
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
+    if HEADLESS:
+        options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1920,1080")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(IMPLICIT_WAIT)
     yield driver
     driver.quit()
 

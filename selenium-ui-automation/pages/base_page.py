@@ -1,75 +1,55 @@
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.ui import Select
+from utilities.config import EXPLICIT_WAIT
+from utilities.waits import Waits
+
 
 class BasePage:
-
-    def __init__(self, driver, timeout=10):
+    def __init__(self, driver, timeout: int = EXPLICIT_WAIT):
         self.driver = driver
-        self.timeout = timeout
-        self.wait = WebDriverWait(driver, timeout)
-
-    def wait_for_visible(self, locator):
-        try:
-            return self.wait.until(EC.visibility_of_element_located(locator))
-        except TimeoutException:
-            raise AssertionError(f"Element not visible: {locator}")
-
-    def wait_for_clickable(self, locator):
-        try:
-            return self.wait.until(EC.element_to_be_clickable(locator))
-        except TimeoutException:
-            raise AssertionError(f"Element not clickable: {locator}")
+        self.waits = Waits(driver, timeout)
 
     def click(self, locator):
-        self.wait_for_clickable(locator).click()
+        self.waits.clickable(locator).click()
 
     def handle_alert(self):
-        try:
-            self.wait.until(EC.alert_is_present())
+        if self.waits.alert_present():
             self.driver.switch_to.alert.accept()
             return True
-        except TimeoutException:
-            return False
+        return False
 
-
-    def is_visible(self, locator):
+    def is_visible(self, locator) -> bool:
         try:
-            self.wait.until(EC.visibility_of_element_located(locator))
+            self.waits.visible(locator)
             return True
-        except TimeoutException:
+        except AssertionError:
             return False
 
     def get_text(self, locator):
-        return self.wait_for_visible(locator).text.strip()
+        return self.waits.visible(locator).text.strip()
 
     def enter_text(self, locator, text):
-        element = self.wait_for_visible(locator)
+        element = self.waits.visible(locator)
         element.clear()
         element.send_keys(text)
 
     def select_by_value(self, locator, value):
-        el = self.wait_for_clickable(locator)
+        el = self.waits.clickable(locator)
         Select(el).select_by_value(str(value))
 
     def select_by_text(self, locator, text):
-        el = self.wait_for_clickable(locator)
+        el = self.waits.clickable(locator)
         Select(el).select_by_visible_text(str(text))
 
     def js_click(self, locator):
-        el = self.wait_for_visible(locator)
+        el = self.waits.visible(locator)
         try:
             self.driver.execute_script("arguments[0].click();", el)
         except Exception as e:
             raise AssertionError(f"JS click failed on {locator}: {str(e)}")
 
     def get_value(self, locator):
-        try:
-            el = self.wait.until(EC.presence_of_element_located(locator))
-            return el.get_attribute("value")
-        except TimeoutException:
-            raise AssertionError(f"Element not present (get_value): {locator}")
+        return self.waits.present(locator).get_attribute("value")
 
     def normalize_text(self, text: str) -> str:
         return "".join(text.split()).lower()
@@ -83,11 +63,11 @@ class BasePage:
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def hover(self, locator):
-        el = self.wait_for_visible(locator)
+        el = self.waits.visible(locator)
         ActionChains(self.driver).move_to_element(el).perform()
         return el
 
     def count_after_wait(self, locator, min_count=1) -> int:
-        self.wait.until(lambda d: len(d.find_elements(*locator)) >= min_count)
+        self.waits.wait.until(lambda d: len(d.find_elements(*locator)) >= min_count)
         return len(self.driver.find_elements(*locator))
 
