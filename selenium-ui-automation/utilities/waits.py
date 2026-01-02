@@ -10,31 +10,25 @@ class Waits:
 
     def visible(self, locator):
         try:
-            return WebDriverWait(self.driver, self.timeout).until(
-                EC.visibility_of_element_located(locator)
-            )
+            return self.wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
             raise AssertionError(f"Element not visible: {locator}")
 
     def clickable(self, locator):
         try:
-            return WebDriverWait(self.driver, self.timeout).until(
-                EC.element_to_be_clickable(locator)
-            )
+            return self.wait.until(EC.element_to_be_clickable(locator))
         except TimeoutException:
             raise AssertionError(f"Element not clickable: {locator}")
 
     def present(self, locator):
         try:
-            return WebDriverWait(self.driver, self.timeout).until(
-                EC.presence_of_element_located(locator)
-            )
+            return self.wait.until(EC.presence_of_element_located(locator))
         except TimeoutException:
             raise AssertionError(f"Element not present: {locator}")
 
     def alert_present(self) -> bool:
         try:
-            WebDriverWait(self.driver, self.timeout).until(EC.alert_is_present())
+            self.wait.until(EC.alert_is_present())
             return True
         except TimeoutException:
             return False
