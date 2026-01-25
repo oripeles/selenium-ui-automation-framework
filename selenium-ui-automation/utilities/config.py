@@ -8,5 +8,5 @@ def env_bool(name: str, default: bool) -> bool:
 
 BASE_URL = os.getenv("BASE_URL", "https://www.automationexercise.com/")
 HEADLESS = env_bool("HEADLESS", True)
-IMPLICIT_WAIT = int(os.getenv("IMPLICIT_WAIT", "1"))
+IMPLICIT_WAIT = int(os.getenv("IMPLICIT_WAIT", "4"))
 EXPLICIT_WAIT = int(os.getenv("EXPLICIT_WAIT", "10"))
