@@ -8,9 +8,10 @@ class Waits:
         self.timeout = timeout
         self.wait = WebDriverWait(driver, timeout)
 
-    def visible(self, locator):
+    def visible(self, locator,timeout=20):
         try:
-            return self.wait.until(EC.visibility_of_element_located(locator))
+            wait = WebDriverWait(self.driver, timeout)
+            return wait.until(EC.visibility_of_element_located(locator))
         except TimeoutException:
             raise AssertionError(f"Element not visible: {locator}")
 
