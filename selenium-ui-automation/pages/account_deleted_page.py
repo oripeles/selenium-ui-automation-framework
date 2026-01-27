@@ -10,6 +10,6 @@ class AccountDeletedPage(BasePage):
         return self.is_visible(self.ACCOUNT_DELETED_TITLE)
 
     def click_deleted_account_button(self):
-        self.click(self.DELETED_ACCOUNT_BUTTON)
+        self.js_click(self.DELETED_ACCOUNT_BUTTON)
 
 
