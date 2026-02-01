@@ -10,10 +10,6 @@ class CartPage(BasePage):
     SUBSCRIPTION_BUTTON = (By.ID, "subscribe")
     SUBSCRIPTION_SUCCESS = (By.XPATH, "//*[contains(text(),'You have been successfully subscribed!')]")
     CART_DESCRIPTION = (By.CSS_SELECTOR, ".cart_description")
-    PRICE_1 = (By.XPATH, "(//*[@class='cart_price']/p)[1]")
-    PRICE_2 = (By.XPATH, "(//*[@class='cart_price']/p)[2]")
-    QTY_1 = (By.XPATH, "(//*[@class='disabled'])[1]")
-    QTY_2 = (By.XPATH, "(//*[@class='disabled'])[2]")
     LOGIN_CHECKOUT = (By.XPATH, "//div[@id='checkoutModal']//a[@href='/login']")
     EMPTY_CARD = (By.ID, "empty_cart")
 
