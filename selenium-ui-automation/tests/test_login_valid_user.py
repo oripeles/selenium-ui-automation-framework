@@ -14,5 +14,7 @@ class TestLoginValidUser:
         assert login.is_login_title_visible(), "Login page title is not visible"
         login.enter_email_and_password(email, password)
         login.click_login_button()
+        assert home.is_logout_visible(), "Logout tab is not visible or text is incorrect"
+
 
 

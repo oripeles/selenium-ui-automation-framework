@@ -34,6 +34,9 @@ class HomePage(BasePage):
     def is_home_page_visible(self) -> bool:
         return self.is_visible(self.ACTIVE_TAB)
 
+    def is_logout_visible(self) -> bool:
+        return self.is_visible(self.LOGOUT_TAB)
+
     def is_left_sidebar_visible(self) -> bool:
         return self.is_visible(self.LEFT_SIDEBAR)
 
