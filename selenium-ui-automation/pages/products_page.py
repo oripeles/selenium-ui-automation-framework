@@ -12,10 +12,6 @@ class ProductsPage(BasePage):
     VIEW_PRODUCT_RESULT = (By.CSS_SELECTOR, ".productinfo.text-center p")
     CONTINUE_SHOPPING_BTN = (By.XPATH, "//*[normalize-space()='Continue Shopping']")
     VIEW_CART_TOP = (By.XPATH, "//*[@href='/view_cart']")
-    PROD_CARD_1 = (By.XPATH, "(//*[@class='product-image-wrapper'])[1]")
-    PROD_CARD_2 = (By.XPATH, "(//*[@class='product-image-wrapper'])[3]")
-    ADD_1 = (By.XPATH, "(//*[contains(@class, 'add-to-cart')])[1]")
-    ADD_2 = (By.XPATH, "(//*[contains(@class, 'add-to-cart')])[3]")
 
     def is_cases_test_title_visible(self) -> bool:
         return self.is_visible(self.CASES_TITLE)
@@ -32,16 +28,17 @@ class ProductsPage(BasePage):
     def search_product_click(self):
         self.click(self.SEARCH_PRODUCT_BUTTON)
 
-    def add_first_product_to_cart(self):
-        self.hover(self.PROD_CARD_1)
-        self.js_click(self.ADD_1)
+    def add_to_cart_by_name(self,name):
+        card = (By.XPATH, f"//*[@class='product-image-wrapper'][.//p[normalize-space()='{name}']]")
+        add_btn = (
+            By.XPATH,
+            f"//div[contains(@class,'overlay-content')]//p[normalize-space()='{name}']/following-sibling::a[contains(@class,'add-to-cart')]"
+        )
+        self.hover(card)
+        self.click(add_btn)
 
     def continue_shopping(self):
         self.click(self.CONTINUE_SHOPPING_BTN)
-
-    def add_second_product(self):
-        self.hover(self.PROD_CARD_2)
-        self.js_click(self.ADD_2)
 
     def open_cart(self):
         self.click(self.VIEW_CART_TOP)

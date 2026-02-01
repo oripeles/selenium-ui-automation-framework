@@ -36,17 +36,21 @@ class CartPage(BasePage):
     def count_products(self):
         return self.count_after_wait(self.CART_DESCRIPTION)
 
-    def get_first_product_price(self):
-        return self.get_text(self.PRICE_1)
+    def get_price_by_product_name(self, name):
+        locator = (
+            By.XPATH,
+            f"//tr[.//td[@class='cart_description']//a[normalize-space()='{name}']]"
+            f"//td[@class='cart_price']/p"
+        )
+        return self.get_text(locator)
 
-    def get_second_product_price(self):
-        return self.get_text(self.PRICE_2)
-
-    def get_first_product_quantity(self):
-        return self.get_text(self.QTY_1)
-
-    def get_second_product_quantity(self):
-        return self.get_text(self.QTY_2)
+    def get_quantity_by_product_name(self, name):
+        locator = (
+            By.XPATH,
+            f"//tr[.//td[@class='cart_description']//a[normalize-space()='{name}']]"
+            f"//td[@class='cart_quantity']//button[@class='disabled']"
+        )
+        return self.get_text(locator)
 
     def click_checkout(self):
         self.click(self.PROCEED_CHECKOUT)
